@@ -10,6 +10,9 @@
     <Copyright>CC-0</Copyright>
     <PackageIcon>vl util logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/viylouu/vlutil</RepositoryUrl>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1</FileVersion>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

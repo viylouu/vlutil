@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Security.Cryptography;
 
 namespace vlutil {
     public struct vec2 {
@@ -26,6 +27,12 @@ namespace vlutil {
         public static vec2 operator -(vec2 v, vec2 n) => v + -n;
         public static vec2 operator %(vec2 v, vec2 n) => new vec2(v.x % n.x, v.y % n.y);
         public static vec2 operator %(vec2 v, float n) => v % new vec2(n);
+        public static bool operator ==(vec2 v, vec2 n) => v.x == n.x && v.y == n.y;
+        public static bool operator !=(vec2 v, vec2 n) => v.x != n.x || v.y != n.y;
+        public static bool operator >(vec2 v, vec2 n) => v.x > n.x && v.x > n.y;
+        public static bool operator <(vec2 v, vec2 n) => n > v;
+        public static bool operator >=(vec2 v, vec2 n) => v.x >= n.x && v.y >= n.y;
+        public static bool operator <=(vec2 v, vec2 n) => n >= v;
 
         public Vector2 conv() => new Vector2(x, y);
     }
@@ -190,5 +197,65 @@ namespace vlutil {
                 return 7.5625f * (x -= 2.625f / 2.75f) * x + 0.984375f;
         }
         public static float ioboun(float x) => x < .5f ? (1 - oboun(1 - 2 * x)) / 2 : (1 + oboun(2 * x - 1)) / 2;
+    }
+
+    public class c {
+        public bool pospos(vec2 p1, vec2 p2) => p1 == p2;
+
+        public bool lineline(line l1, line l2) {
+            float uA = ((l2.p2.x - l2.p1.x) * (l1.p1.y - l2.p1.y) - (l2.p2.y - l2.p1.y) * (l1.p1.x - l2.p1.x)) / ((l2.p2.y - l2.p1.y) * (l1.p2.x - l1.p1.x) - (l2.p2.x - l2.p1.x) * (l1.p2.y - l1.p1.y));
+            float uB = ((l1.p2.x - l1.p1.x) * (l1.p1.y - l2.p2.y) - (l1.p2.y - l1.p1.y) * (l1.p1.x - l2.p1.x)) / ((l2.p2.y - l2.p1.y) * (l1.p2.x - l1.p1.x) - (l2.p2.x - l2.p1.x) * (l1.p2.y - l1.p1.y));
+
+            if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1)
+                return true;
+            return false;
+        }
+
+        public bool linelinei(line l1, line l2, out vec2 ipoint) {
+            float uA = ((l2.p2.x - l2.p1.x) * (l1.p1.y - l2.p1.y) - (l2.p2.y - l2.p1.y) * (l1.p1.x - l2.p1.x)) / ((l2.p2.y - l2.p1.y) * (l1.p2.x - l1.p1.x) - (l2.p2.x - l2.p1.x) * (l1.p2.y - l1.p1.y));
+            float uB = ((l1.p2.x - l1.p1.x) * (l1.p1.y - l2.p2.y) - (l1.p2.y - l1.p1.y) * (l1.p1.x - l2.p1.x)) / ((l2.p2.y - l2.p1.y) * (l1.p2.x - l1.p1.x) - (l2.p2.x - l2.p1.x) * (l1.p2.y - l1.p1.y));
+
+            if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) {
+                float ix = l1.p1.x + (uA * (l1.p2.x - l1.p1.x));
+                float iy = l1.p1.y + (uA * (l1.p2.y - l1.p1.y));
+                ipoint = new vec2(ix, iy);
+
+                return true;
+            }
+            ipoint = vec2.zero;
+            return false;
+        }
+
+        public bool rectrect(rect r1, rect r2) => r1.p + r1.s >= r2.p && r1.p <= r2.p + r2.s;
+        public bool rectcrectc(rect r1, rect r2) => r1.p + r1.s/2 >= r2.p - r2.s/2 && r1.p - r1.s/2 <= r2.p + r2.s/2;
+        public bool rectcrect(rect r1, rect r2) => r1.p + r1.s / 2 >= r2.p && r1.p - r1.s / 2 <= r2.p + r2.s;
+        public bool rectrectc(rect r1, rect r2) => rectcrect(r2, r1);
+
+        public bool rectpos(rect r, vec2 p) => p >= r.p && p <= r.p + r.s;
+        public bool rectcpos(rect r, vec2 p) => p >= r.p - r.s/2 && p <= r.p + r.s/2;
+
+        public bool circpos(circ c, vec2 p) => m.dist(c.p, p) <= c.r;
+        public bool circcirc(circ c1, circ c2) => m.dist(c1.p, c2.p) <= c1.r + c2.r;
+    }
+
+    public struct line {
+        public vec2 p1;
+        public vec2 p2;
+
+        public line(vec2 p1, vec2 p2) { this.p1 = p1; this.p2 = p2; }
+    }
+
+    public struct rect {
+        public vec2 p;
+        public vec2 s;
+
+        public rect(vec2 p, vec2 s) { this.p = p; this.s = s; }
+    }
+
+    public struct circ {
+        public vec2 p;
+        public float r;
+
+        public circ(vec2 p, float r) { this.p = p; this.r = r; }
     }
 }
