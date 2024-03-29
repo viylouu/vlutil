@@ -140,6 +140,79 @@ namespace vlutil {
         public static float dirb(vec2 a, vec2 b) => atan2(b.y - a.y, b.x - a.x);
     }
 
+    public class dm { //math
+        static Random r = new Random();
+
+        //random
+        public static double rand() => r.NextDouble();
+        public static double rand(int min, int max) => r.Next(min, max);
+        public static double rand(double min, double max) => (r.NextDouble() + min) * (max - min);
+
+        //values
+        public static double pi = 3.14159265358979323846264338327950288420;
+        public static double e = 2.718281828459045235360287471352662497757;
+
+        //misc values
+        public static double v180dpi = 57.295779513082320876798154814105170417;
+        public static double vpid180 = 0.0174532925199432957692369076848861271344;
+
+        //radians and degrees
+        public static double r2d(double a) => v180dpi * a;
+        public static double d2r(double a) => vpid180 * a;
+
+        //trig
+        public static double sin(double a) => Math.Sin(a);
+        public static double cos(double a) => Math.Cos(a);
+        public static double tan(double a) => Math.Tan(a);
+        public static double cot(double a) => 1 / Math.Tan(a);
+        public static double sec(double a) => 1 / Math.Cos(a);
+        public static double csc(double a) => 1 / Math.Sin(a);
+        public static double atan(double a) => Math.Atan(a);
+        public static double atan2(double y, double x) => Math.Atan2(y, x);
+        public static double acot(double a) => Math.Atan(1 / a);
+        public static double asec(double a) => Math.Acos(1 / a);
+        public static double acsc(double a) => Math.Asin(1 / a);
+        public static double asin(double a) => Math.Asin(a);
+        public static double acos(double a) => Math.Acos(a);
+        public static double tanh(double a) => Math.Tanh(a);
+        public static double sinh(double a) => Math.Sinh(a);
+        public static double cosh(double a) => Math.Cosh(a);
+        public static double coth(double a) => Math.Cosh(a)/Math.Sinh(a);
+        public static double sech(double a) => 1 / Math.Cosh(a);
+        public static double csch(double a) => 1 / Math.Sinh(a);
+        public static double atanh(double a) => Math.Atanh(a);
+        public static double asinh(double a) => Math.Asinh(a);
+        public static double acosh(double a) => Math.Acosh(a);
+        public static double acoth(double a) => Math.Atanh(1 / a);
+        public static double asech(double a) => Math.Acosh(1 / a);
+        public static double acsch(double a) => Math.Asinh(1 / a);
+
+        //misc
+        public static double abs(double a) => Math.Abs(a);
+        public static double flr(double a) => Math.Floor(a);
+        public static double ceil(double a) => Math.Ceiling(a);
+        public static double rnd(double a) => Math.Round(a);
+        public static double log(double a) => Math.Log(a);
+        public static double clmp(double n, double min, double max) => (double)Math.Clamp(n, min, max);
+
+        //exponents and roots
+        public static double pow(double n, double p) => Math.Pow(n, p);
+        public static double sqr(double a) => a * a;
+        public static double cbe(double a) => a * a * a;
+        public static double qrt(double a) => a * a * a * a;
+        public static double qin(double a) => a * a * a * a * a;
+        public static double root(double n, double r) => pow(n, 1/r);
+        public static double sqrt(double a) => Math.Sqrt(a);
+        public static double cbrt(double a) => Math.Cbrt(a);
+        public static double qrtt(double a) => Math.Pow(a, 0.25f);
+        public static double qint(double a) => Math.Pow(a, 0.2f);
+
+        //geometry
+        public static double dist(double a, double b) => abs(a - b);
+        public static double dist(vec2 a, vec2 b) => sqrt(sqr(b.x - a.x) + sqr(b.y - a.y));
+        public static double dirb(vec2 a, vec2 b) => atan2(b.y - a.y, b.x - a.x);
+    }
+
     public class e { //easings
         static float 
             c1 = 1.70158f,
